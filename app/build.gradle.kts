@@ -90,6 +90,9 @@ android {
             excludes += "META-INF/io.netty.versions.properties"
         }
     }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 tasks.withType<Test> {

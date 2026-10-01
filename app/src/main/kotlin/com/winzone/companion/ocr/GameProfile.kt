@@ -1,6 +1,13 @@
 package com.winzone.companion.ocr
 
-import android.graphics.RectF
+data class RectRegion(
+    val left: Float,
+    val top: Float,
+    val right: Float,
+    val bottom: Float
+) {
+    fun contains(x: Float, y: Float): Boolean = x in left..right && y in top..bottom
+}
 
 data class GameProfile(
     val id: String,
@@ -13,13 +20,13 @@ data class GameProfile(
 )
 
 data class Regions(
-    val teamA: RectF,
-    val teamB: RectF,
-    val scoreA: RectF,
-    val scoreB: RectF,
-    val penA: RectF? = null,
-    val penB: RectF? = null,
-    val clock: RectF? = null
+    val teamA: RectRegion,
+    val teamB: RectRegion,
+    val scoreA: RectRegion,
+    val scoreB: RectRegion,
+    val penA: RectRegion? = null,
+    val penB: RectRegion? = null,
+    val clock: RectRegion? = null
 )
 
 data class LayoutMarkers(

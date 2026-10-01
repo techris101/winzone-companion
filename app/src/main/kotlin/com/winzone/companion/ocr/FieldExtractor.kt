@@ -1,7 +1,5 @@
 package com.winzone.companion.ocr
 
-import android.graphics.Rect
-import android.graphics.RectF
 import com.winzone.companion.util.BitmapUtils
 import com.winzone.companion.util.Time
 import javax.inject.Inject
@@ -89,13 +87,20 @@ class FieldExtractor @Inject constructor() {
 
     private fun filterBlocksInRegion(
         blocks: List<OcrBlock>,
-        region: RectF,
+        region: RectRegion,
         frameWidth: Int,
         frameHeight: Int
     ): List<OcrBlock> {
         return blocks.filter { block ->
-            val rect = Rect(block.left, block.top, block.right, block.bottom)
-            BitmapUtils.isRectInsideRegion(rect, region, frameWidth, frameHeight)
+            BitmapUtils.isRectInsideRegion(
+                block.left,
+                block.top,
+                block.right,
+                block.bottom,
+                region,
+                frameWidth,
+                frameHeight
+            )
         }
     }
 

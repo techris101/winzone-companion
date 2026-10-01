@@ -22,19 +22,19 @@ class RetryPolicyTest {
         assertTrue(RetryPolicy.isRetryableException(IOException("Network error")))
         assertTrue(RetryPolicy.isRetryableException(SocketTimeoutException("Timeout")))
 
-        val response500 = mockk<HttpResponse>()
-        every { response500.status } returns HttpStatusCode.InternalServerError
-        val serverException = ServerResponseException(response500, "500 Internal Server Error")
+        val serverException = mockk<ServerResponseException>()
         assertTrue(RetryPolicy.isRetryableException(serverException))
 
-        val response429 = mockk<HttpResponse>()
+        val rateLimitException = mockk<ClientRequestException>()
+        val response429 = mockk<HttpResponse>(relaxed = true)
         every { response429.status } returns HttpStatusCode.TooManyRequests
-        val rateLimitException = ClientRequestException(response429, "429 Rate Limited")
+        every { rateLimitException.response } returns response429
         assertTrue(RetryPolicy.isRetryableException(rateLimitException))
 
-        val response400 = mockk<HttpResponse>()
+        val badRequestException = mockk<ClientRequestException>()
+        val response400 = mockk<HttpResponse>(relaxed = true)
         every { response400.status } returns HttpStatusCode.BadRequest
-        val badRequestException = ClientRequestException(response400, "400 Bad Request")
+        every { badRequestException.response } returns response400
         assertFalse(RetryPolicy.isRetryableException(badRequestException))
     }
 

@@ -1,9 +1,8 @@
 package com.winzone.companion.util
 
 import android.graphics.Bitmap
-import android.graphics.Rect
-import android.graphics.RectF
 import android.media.Image
+import com.winzone.companion.ocr.RectRegion
 import java.nio.ByteBuffer
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -48,7 +47,7 @@ object BitmapUtils {
         return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
     }
 
-    fun cropRegion(bitmap: Bitmap, normalizedRect: RectF): Bitmap {
+    fun cropRegion(bitmap: Bitmap, normalizedRect: RectRegion): Bitmap {
         val left = (normalizedRect.left * bitmap.width).roundToInt().coerceIn(0, bitmap.width - 1)
         val top = (normalizedRect.top * bitmap.height).roundToInt().coerceIn(0, bitmap.height - 1)
         val right = (normalizedRect.right * bitmap.width).roundToInt().coerceIn(left + 1, bitmap.width)
@@ -60,11 +59,19 @@ object BitmapUtils {
         return Bitmap.createBitmap(bitmap, left, top, cropWidth, cropHeight)
     }
 
-    fun isRectInsideRegion(box: Rect, region: RectF, frameWidth: Int, frameHeight: Int): Boolean {
-        val normLeft = box.left.toFloat() / frameWidth
-        val normTop = box.top.toFloat() / frameHeight
-        val normRight = box.right.toFloat() / frameWidth
-        val normBottom = box.bottom.toFloat() / frameHeight
+    fun isRectInsideRegion(
+        boxLeft: Int,
+        boxTop: Int,
+        boxRight: Int,
+        boxBottom: Int,
+        region: RectRegion,
+        frameWidth: Int,
+        frameHeight: Int
+    ): Boolean {
+        val normLeft = boxLeft.toFloat() / frameWidth
+        val normTop = boxTop.toFloat() / frameHeight
+        val normRight = boxRight.toFloat() / frameWidth
+        val normBottom = boxBottom.toFloat() / frameHeight
 
         val centerX = (normLeft + normRight) / 2f
         val centerY = (normTop + normBottom) / 2f
