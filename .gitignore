@@ -12,3 +12,9 @@
 
 # Keystore secrets (if any private keystore)
 # We will provide a release keystore for CI builds
+
+# Build artifacts
+*.apk
+*.zip
+/release-apk/
+/debug-apk/
