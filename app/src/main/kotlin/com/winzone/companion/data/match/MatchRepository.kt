@@ -2,7 +2,9 @@ package com.winzone.companion.data.match
 
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.rpc
 import io.github.jan.supabase.postgrest.query.Order
+import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import timber.log.Timber
@@ -19,7 +21,7 @@ class MatchRepositoryImpl @Inject constructor(
     private val supabase: SupabaseClient
 ) : MatchRepository {
 
-    override suspend fun findOpenMatch(userId: String): MatchSnapshot? = runCatching {
+    override suspend fun findOpenMatch(userId: String): MatchSnapshot? = try {
         Timber.d("Querying open matches for user: %s", userId)
         val result = supabase.postgrest["matches"]
             .select {
@@ -35,32 +37,40 @@ class MatchRepositoryImpl @Inject constructor(
             }
             .decodeList<MatchRow>()
 
-        val matchRow = result.firstOrNull() ?: return@runCatching null
-        matchRow.toSnapshot(userId)
-    }.getOrElse { error ->
+        val matchRow = result.firstOrNull()
+        matchRow?.toSnapshot(userId)
+    } catch (error: Exception) {
+        if (error is CancellationException) throw error
         Timber.e(error, "Error querying open match")
         null
     }
 
-    override suspend fun joinMatch(matchId: String): Result<MatchSnapshot> = runCatching {
+    override suspend fun joinMatch(matchId: String): Result<MatchSnapshot> = try {
         Timber.d("Calling app_join_match for match: %s", matchId)
         val params = buildJsonObject {
             put("match_id", matchId)
         }
-        val response = supabase.postgrest.rpc("app_join_match", params).decodeAs<MatchSnapshot>()
+        val response = supabase.postgrest.rpc("app_join_match", params).decodeSingle<MatchSnapshot>()
         Timber.i("Joined match successfully: %s, assigned side: %s", response.matchId, response.mySide)
-        response
-    }.recoverCatching { error ->
+        Result.success(response)
+    } catch (error: Exception) {
+        if (error is CancellationException) throw error
         Timber.w(error, "app_join_match RPC failed, falling back to direct match row query")
-        val currentUserId = supabase.postgrest["matches"]
-            .select {
-                filter { eq("id", matchId) }
-                limit(1)
-            }
-            .decodeList<MatchRow>()
-            .firstOrNull()
-            ?: throw IllegalStateException("Match $matchId not found")
+        try {
+            val matchRow = supabase.postgrest["matches"]
+                .select {
+                    filter { eq("id", matchId) }
+                    limit(1)
+                }
+                .decodeList<MatchRow>()
+                .firstOrNull()
+                ?: throw IllegalStateException("Match $matchId not found")
 
-        currentUserId.toSnapshot(currentUserId.playerOneId)
+            Result.success(matchRow.toSnapshot(matchRow.playerOneId))
+        } catch (inner: Exception) {
+            if (inner is CancellationException) throw inner
+            Timber.e(inner, "Fallback direct match query failed")
+            Result.failure(inner)
+        }
     }
 }
