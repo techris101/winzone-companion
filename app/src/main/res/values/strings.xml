@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WIN ZONE</string>
+
+    <!-- Notification Strings -->
+    <string name="notification_capture_title">WIN ZONE — capture active</string>
+    <string name="notification_capture_text">Match %1$s — reporting every 2s</string>
+    <string name="notification_session_expired">Session expired — open WIN ZONE</string>
+    <string name="notification_action_required">Action required — open WIN ZONE</string>
+    <string name="notification_capture_stopped_system">Screen capture stopped by system. Reopen WIN ZONE to resume.</string>
+    <string name="notification_recovery_prompt">Capture stopped — tap to resume</string>
+    <string name="notification_channel_capture_name">Screen capture</string>
+    <string name="notification_channel_capture_desc">Ongoing capture status notifications</string>
+    <string name="notification_channel_alerts_name">Alerts and Actions</string>
+    <string name="notification_channel_alerts_desc">High-priority match and session alerts</string>
+
+    <!-- Onboarding Strings -->
+    <string name="onboarding_title_1">Watches Your Match Screen</string>
+    <string name="onboarding_body_1">WIN ZONE reads your match score and time directly from your screen using on-device OCR.</string>
+    <string name="onboarding_title_2">Requires Foreground Notification</string>
+    <string name="onboarding_body_2">Android requires a visible notification at all times while screen capture is active.</string>
+    <string name="onboarding_title_3">Never Handles Money</string>
+    <string name="onboarding_body_3">The companion app only streams match telemetry. All stakes and rewards are settled by the backend.</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_skip">Skip</string>
+    <string name="btn_get_started">Get Started</string>
+
+    <!-- Login Strings -->
+    <string name="login_title">Sign In</string>
+    <string name="login_subtitle">Use your WIN ZONE website credentials</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="btn_sign_in">Log in</string>
+    <string name="btn_signing_in">Logging in…</string>
+    <string name="link_open_website">Open winzone website</string>
+    <string name="checkbox_tos">I agree to the Terms of Service and Privacy Policy.</string>
+    <string name="checkbox_age">I confirm I am 18 years or older.</string>
+    <string name="error_empty_credentials">Please enter your email and password.</string>
+    <string name="error_accept_terms">You must accept the terms and confirm your age.</string>
+    <string name="error_invalid_credentials">Invalid email or password.</string>
+
+    <!-- Home Strings -->
+    <string name="greeting_user">Signed in as %1$s</string>
+    <string name="home_no_match_title">No Open Match</string>
+    <string name="home_no_match_body">Waiting for the website to match you. When ready, tap Refresh or use your match link.</string>
+    <string name="home_open_match_title">Open Match Found</string>
+    <string name="home_match_id">Match ID: %1$s</string>
+    <string name="home_stake">Stake: %1$s</string>
+    <string name="home_opponent">Opponent: %1$s</string>
+    <string name="btn_join_match">Join Match</string>
+    <string name="btn_refresh">Refresh</string>
+    <string name="btn_sign_out">Sign Out</string>
+
+    <!-- Join Strings -->
+    <string name="join_title">Match Lobby</string>
+    <string name="join_player_role">You are player %1$s — team %2$s</string>
+    <string name="join_status">Status: %1$s</string>
+    <string name="btn_continue_permissions">Continue to Permissions</string>
+    <string name="join_not_participant">You are not a participant in this match.</string>
+
+    <!-- Permissions Strings -->
+    <string name="perm_title">Required Permissions</string>
+    <string name="perm_subtitle">Android requires explicit consent before screen capture can begin.</string>
+    <string name="perm_notif_title">Allow notifications</string>
+    <string name="perm_notif_body">Capture runs as a foreground service, which Android requires to show a notification. Without it, the app cannot capture your screen.</string>
+    <string name="perm_capture_title">Allow screen capture</string>
+    <string name="perm_capture_body">WIN ZONE needs to see your screen to read the match. It does not record audio, and it does not upload your screen — only the parsed match state is sent.</string>
+    <string name="perm_battery_title">Keep capture alive</string>
+    <string name="perm_battery_body">Some phones stop background apps aggressively. Allow WIN ZONE to run without battery restrictions to avoid interruptions.</string>
+    <string name="btn_grant">Grant</string>
+    <string name="btn_granted">Granted</string>
+    <string name="btn_allow">Allow</string>
+    <string name="btn_skip_optional">Skip</string>
+    <string name="btn_start_capture">Start Capture</string>
+
+    <!-- Capture Screen Strings -->
+    <string name="capture_active_header">Capturing — reporting every 2s</string>
+    <string name="capture_layout">Layout: %1$s</string>
+    <string name="capture_score">Score: %1$s - %2$s</string>
+    <string name="capture_clock">Clock: %1$s</string>
+    <string name="capture_confidence">OCR Confidence: %1$s%%</string>
+    <string name="capture_agreement_waiting">Waiting for opponent…</string>
+    <string name="capture_agreement_kickoff">Kickoff agreed &amp; triggered</string>
+    <string name="capture_agreement_final">Full-time agreement reached</string>
+    <string name="btn_stop_capture">Stop Capture</string>
+    <string name="dialog_stop_capture_title">Stop Screen Capture?</string>
+    <string name="dialog_stop_capture_body">Stopping capture will stop streaming match state to the backend.</string>
+    <string name="btn_confirm_stop">Stop</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_submit">Submit</string>
+
+    <!-- Fallback Dialog Strings -->
+    <string name="fallback_dialog_title">Enter Team Names</string>
+    <string name="fallback_dialog_body">OCR couldn\'t read the team names clearly. Type them so we can track the match.</string>
+    <string name="label_team_a">Team A Name</string>
+    <string name="label_team_b">Team B Name</string>
+
+    <!-- Settings & Diagnostics Strings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_version">Version: %1$s (%2$s)</string>
+    <string name="settings_profile">Game Profile: %1$s</string>
+    <string name="settings_open_logs">Open Logs</string>
+    <string name="settings_diagnostics">Diagnostics</string>
+    <string name="diag_title">Diagnostics</string>
+    <string name="diag_device">Device: %1$s (API %2$s)</string>
+    <string name="diag_session">Session: %1$s</string>
+    <string name="diag_integrity">Integrity Level: %1$s</string>
+    <string name="diag_data_usage">Data Used: %1$s</string>
+    <string name="btn_share_logs">Share Logs</string>
+
+    <!-- Shortcuts Strings -->
+    <string name="shortcut_join_short">Join match</string>
+    <string name="shortcut_join_long">Join current match</string>
+    <string name="shortcut_logs_short">Logs</string>
+    <string name="shortcut_logs_long">Open system logs</string>
+
+    <!-- Update Strings -->
+    <string name="update_dialog_title">Update Available</string>
+    <string name="update_dialog_soft_body">A new version of WIN ZONE is available (%1$s). Would you like to update?</string>
+    <string name="update_dialog_hard_body">This version of WIN ZONE is no longer supported. Please update to %1$s to continue.</string>
+    <string name="btn_update">Update Now</string>
+    <string name="btn_later">Later</string>
+
+    <!-- Accessibility Strings -->
+    <string name="cd_logo">WIN ZONE Logo</string>
+    <string name="cd_password_visibility">Toggle password visibility</string>
+    <string name="cd_back">Back</string>
+    <string name="cd_settings">Settings</string>
+    <string name="cd_refresh">Refresh match</string>
+    <string name="announcement_capture_started">Capture started</string>
+    <string name="announcement_capture_stopped">Capture stopped</string>
+</resources>

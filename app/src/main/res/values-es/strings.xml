@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WIN ZONE</string>
+    <string name="notification_capture_title">WIN ZONE — captura activa</string>
+    <string name="notification_capture_text">Partida %1$s — informando cada 2s</string>
+    <string name="notification_session_expired">Sesión expirada — abre WIN ZONE</string>
+    <string name="notification_action_required">Acción requerida — abre WIN ZONE</string>
+    <string name="notification_capture_stopped_system">Captura de pantalla detenida por el sistema.</string>
+    <string name="notification_recovery_prompt">Captura detenida — toca para reanudar</string>
+    <string name="notification_channel_capture_name">Captura de pantalla</string>
+    <string name="notification_channel_capture_desc">Notificaciones de estado de captura</string>
+    <string name="notification_channel_alerts_name">Alertas y acciones</string>
+    <string name="notification_channel_alerts_desc">Alertas de alta prioridad</string>
+    <string name="btn_next">Siguiente</string>
+    <string name="btn_skip">Omitir</string>
+    <string name="btn_get_started">Comenzar</string>
+    <string name="login_title">Iniciar sesión</string>
+    <string name="login_subtitle">Usa tus credenciales del sitio web de WIN ZONE</string>
+    <string name="label_email">Correo electrónico</string>
+    <string name="label_password">Contraseña</string>
+    <string name="btn_sign_in">Iniciar sesión</string>
+    <string name="btn_signing_in">Iniciando sesión…</string>
+    <string name="link_open_website">Abrir sitio web de winzone</string>
+    <string name="checkbox_tos">Acepto los Términos de servicio y la Política de privacidad.</string>
+    <string name="checkbox_age">Confirmo que tengo 18 años o más.</string>
+    <string name="error_empty_credentials">Introduce tu correo y contraseña.</string>
+    <string name="error_accept_terms">Debes aceptar los términos y confirmar tu edad.</string>
+    <string name="error_invalid_credentials">Correo o contraseña inválidos.</string>
+    <string name="greeting_user">Conectado como %1$s</string>
+    <string name="home_no_match_title">Sin partida abierta</string>
+    <string name="home_no_match_body">Esperando a que el sitio web te asigne una partida.</string>
+    <string name="home_open_match_title">Partida abierta encontrada</string>
+    <string name="home_match_id">ID de partida: %1$s</string>
+    <string name="home_stake">Apuesta: %1$s</string>
+    <string name="home_opponent">Oponente: %1$s</string>
+    <string name="btn_join_match">Unirse a la partida</string>
+    <string name="btn_refresh">Actualizar</string>
+    <string name="btn_sign_out">Cerrar sesión</string>
+</resources>

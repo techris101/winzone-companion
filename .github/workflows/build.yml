@@ -1,0 +1,72 @@
+name: WIN ZONE Companion CI & Release Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build, Test & Package APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle Cache
+        uses: actions/setup-gradle@v3
+
+      - name: Grant Execute Permission to gradlew
+        run: chmod +x gradlew
+
+      - name: Configure Supabase Credentials
+        run: |
+          cat <<EOF > local.properties
+          SUPABASE_URL=https://jfniylmbogodgozcczln.supabase.co
+          SUPABASE_PUBLISHABLE_KEY=sb_publishable_ZyP4LV6xjYu8T4tyPAgWFw_IQEPiVui
+          EOF
+
+      - name: Generate Release Keystore
+        run: |
+          mkdir -p keystore
+          keytool -genkeypair -v \
+            -keystore keystore/winzone-release.jks \
+            -alias winzone \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass winzone123 \
+            -keypass winzone123 \
+            -dname "CN=WINZONE, OU=Companion, O=WinZone, L=Kigali, ST=Kigali, C=RW"
+
+      - name: Run Unit Tests
+        run: ./gradlew :app:testDebugUnitTest --stacktrace
+
+      - name: Assemble Release and Debug APKs
+        run: ./gradlew :app:assembleRelease :app:assembleDebug --stacktrace
+        env:
+          WINZONE_KEYSTORE_PASSWORD: winzone123
+          WINZONE_KEY_ALIAS: winzone
+          WINZONE_KEY_PASSWORD: winzone123
+
+      - name: Upload Release APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: winzone-release-apk
+          path: app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+
+      - name: Upload Debug APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: winzone-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: warn

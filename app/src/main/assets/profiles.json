@@ -1,0 +1,26 @@
+{
+  "profiles": [
+    {
+      "id": "default-v1",
+      "displayName": "Default 1v1 landscape",
+      "regions": {
+        "teamA": [0.02, 0.03, 0.30, 0.12],
+        "teamB": [0.70, 0.03, 0.98, 0.12],
+        "scoreA": [0.30, 0.03, 0.45, 0.12],
+        "scoreB": [0.55, 0.03, 0.70, 0.12],
+        "clock": [0.45, 0.03, 0.55, 0.12],
+        "penA": null,
+        "penB": null
+      },
+      "layoutMarkers": {
+        "fullTimeKeywords": ["FULL TIME", "FT", "MATCH ENDED", "FULL-TIME"],
+        "disconnectedKeywords": ["OPPONENT DISCONNECTED", "OPPONENT LEFT", "CONNECTION LOST"],
+        "concededKeywords": ["OPPONENT CONCEDED", "SURRENDERED", "FORFEIT"],
+        "inPlayIndicators": ["PAUSE", "II"]
+      },
+      "clockFormat": "MM_SS",
+      "scoreRegex": "^\\d{1,2}$",
+      "teamNameRegex": null
+    }
+  ]
+}

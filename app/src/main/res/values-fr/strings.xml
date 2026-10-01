@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WIN ZONE</string>
+    <string name="notification_capture_title">WIN ZONE — capture active</string>
+    <string name="notification_capture_text">Match %1$s — rapport toutes les 2s</string>
+    <string name="notification_session_expired">Session expirée — ouvrez WIN ZONE</string>
+    <string name="notification_action_required">Action requise — ouvrez WIN ZONE</string>
+    <string name="notification_capture_stopped_system">Capture d\'écran arrêtée par le système.</string>
+    <string name="notification_recovery_prompt">Capture arrêtée — appuyez pour reprendre</string>
+    <string name="notification_channel_capture_name">Capture d\'écran</string>
+    <string name="notification_channel_capture_desc">Notifications d\'état de la capture</string>
+    <string name="notification_channel_alerts_name">Alertes et actions</string>
+    <string name="notification_channel_alerts_desc">Alertes de match et de session prioritaires</string>
+    <string name="btn_next">Suivant</string>
+    <string name="btn_skip">Passer</string>
+    <string name="btn_get_started">Commencer</string>
+    <string name="login_title">Connexion</string>
+    <string name="login_subtitle">Utilisez vos identifiants du site WIN ZONE</string>
+    <string name="label_email">E-mail</string>
+    <string name="label_password">Mot de passe</string>
+    <string name="btn_sign_in">Se connecter</string>
+    <string name="btn_signing_in">Connexion en cours…</string>
+    <string name="link_open_website">Ouvrir le site winzone</string>
+    <string name="checkbox_tos">J\'accepte les Conditions d\'utilisation et la Politique de confidentialité.</string>
+    <string name="checkbox_age">Je confirme avoir 18 ans ou plus.</string>
+    <string name="error_empty_credentials">Veuillez entrer votre e-mail et votre mot de passe.</string>
+    <string name="error_accept_terms">Vous devez accepter les conditions et confirmer votre âge.</string>
+    <string name="error_invalid_credentials">E-mail ou mot de passe invalide.</string>
+    <string name="greeting_user">Connecté en tant que %1$s</string>
+    <string name="home_no_match_title">Aucun match en cours</string>
+    <string name="home_no_match_body">En attente d\'un match sur le site.</string>
+    <string name="home_open_match_title">Match ouvert trouvé</string>
+    <string name="home_match_id">ID du match: %1$s</string>
+    <string name="home_stake">Mise: %1$s</string>
+    <string name="home_opponent">Adversaire: %1$s</string>
+    <string name="btn_join_match">Rejoindre le match</string>
+    <string name="btn_refresh">Actualiser</string>
+    <string name="btn_sign_out">Se déconnecter</string>
+</resources>
