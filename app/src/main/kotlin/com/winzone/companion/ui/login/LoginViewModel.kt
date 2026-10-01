@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 data class LoginUiState(
@@ -20,6 +21,7 @@ data class LoginUiState(
     val isAgeConfirmed: Boolean = false,
     val isLoading: Boolean = false,
     val errorMessageRes: Int? = null,
+    val errorMessageText: String? = null,
     val isPasswordVisible: Boolean = false
 )
 
@@ -46,20 +48,20 @@ class LoginViewModel @Inject constructor(
     }
 
     fun onEmailChanged(email: String) {
-        _uiState.update { it.copy(email = email, errorMessageRes = null) }
+        _uiState.update { it.copy(email = email, errorMessageRes = null, errorMessageText = null) }
     }
 
     fun onPasswordChanged(password: String) {
-        _uiState.update { it.copy(password = password, errorMessageRes = null) }
+        _uiState.update { it.copy(password = password, errorMessageRes = null, errorMessageText = null) }
     }
 
     fun onTosChanged(accepted: Boolean) {
-        _uiState.update { it.copy(isTosAccepted = accepted, errorMessageRes = null) }
+        _uiState.update { it.copy(isTosAccepted = accepted, errorMessageRes = null, errorMessageText = null) }
         viewModelScope.launch { preferencesStore.setTosAccepted(accepted) }
     }
 
     fun onAgeChanged(confirmed: Boolean) {
-        _uiState.update { it.copy(isAgeConfirmed = confirmed, errorMessageRes = null) }
+        _uiState.update { it.copy(isAgeConfirmed = confirmed, errorMessageRes = null, errorMessageText = null) }
         viewModelScope.launch { preferencesStore.setAgeConfirmed(confirmed) }
     }
 
@@ -69,28 +71,62 @@ class LoginViewModel @Inject constructor(
 
     fun signIn(onSuccess: () -> Unit) {
         val state = _uiState.value
-        if (state.email.isBlank() || state.password.isBlank()) {
-            _uiState.update { it.copy(errorMessageRes = R.string.error_empty_credentials) }
+        val email = state.email.trim()
+        val password = state.password.trim()
+
+        if (email.isBlank() || password.isBlank()) {
+            _uiState.update {
+                it.copy(
+                    errorMessageRes = R.string.error_empty_credentials,
+                    errorMessageText = null
+                )
+            }
             return
         }
 
         if (!state.isTosAccepted || !state.isAgeConfirmed) {
-            _uiState.update { it.copy(errorMessageRes = R.string.error_accept_terms) }
+            _uiState.update {
+                it.copy(
+                    errorMessageRes = R.string.error_accept_terms,
+                    errorMessageText = null
+                )
+            }
             return
         }
 
-        _uiState.update { it.copy(isLoading = true, errorMessageRes = null) }
+        _uiState.update { it.copy(isLoading = true, errorMessageRes = null, errorMessageText = null) }
 
         viewModelScope.launch {
-            val result = authRepository.signIn(state.email.trim(), state.password.trim())
+            val result = authRepository.signIn(email, password)
             if (result.isSuccess) {
                 _uiState.update { it.copy(isLoading = false) }
                 onSuccess()
             } else {
+                val exception = result.exceptionOrNull()
+                val rawMsg = exception?.localizedMessage ?: exception?.message ?: ""
+                Timber.e(exception, "Sign-in failed for %s: %s", email, rawMsg)
+
+                val (msgRes, detailedMsg) = when {
+                    rawMsg.contains("Invalid login credentials", ignoreCase = true) ||
+                    rawMsg.contains("invalid_grant", ignoreCase = true) -> {
+                        Pair(R.string.error_invalid_credentials, null)
+                    }
+                    rawMsg.contains("Email not confirmed", ignoreCase = true) -> {
+                        Pair(null, "Email address has not been confirmed yet.")
+                    }
+                    rawMsg.isNotBlank() -> {
+                        Pair(null, rawMsg)
+                    }
+                    else -> {
+                        Pair(R.string.error_invalid_credentials, null)
+                    }
+                }
+
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        errorMessageRes = R.string.error_invalid_credentials
+                        errorMessageRes = msgRes,
+                        errorMessageText = detailedMsg
                     )
                 }
             }

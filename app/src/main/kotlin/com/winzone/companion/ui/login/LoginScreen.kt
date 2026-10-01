@@ -196,10 +196,15 @@ fun LoginScreen(
         }
 
         // Error message
-        if (uiState.errorMessageRes != null) {
+        if (uiState.errorMessageRes != null || !uiState.errorMessageText.isNullOrBlank()) {
             Spacer(modifier = Modifier.height(16.dp))
+            val errorText = when {
+                !uiState.errorMessageText.isNullOrBlank() -> uiState.errorMessageText!!
+                uiState.errorMessageRes != null -> stringResource(uiState.errorMessageRes!!)
+                else -> ""
+            }
             Text(
-                text = stringResource(uiState.errorMessageRes!!),
+                text = errorText,
                 style = MaterialTheme.typography.bodyMedium,
                 color = StatusError,
                 textAlign = TextAlign.Center

@@ -24,9 +24,11 @@ class AuthRepositoryImpl @Inject constructor(
     override val session: Flow<StoredSession?> = sessionStore.currentSession
 
     override suspend fun signIn(email: String, password: String): Result<StoredSession> = runCatching {
+        val cleanEmail = email.trim()
+        val cleanPassword = password.trim()
         supabase.auth.signInWith(Email) {
-            this.email = email
-            this.password = password
+            this.email = cleanEmail
+            this.password = cleanPassword
         }
 
         val currentSession = supabase.auth.currentSessionOrNull()
@@ -36,7 +38,7 @@ class AuthRepositoryImpl @Inject constructor(
             accessToken = currentSession.accessToken,
             refreshToken = currentSession.refreshToken,
             userId = currentSession.user?.id ?: throw IllegalStateException("Missing user ID"),
-            email = currentSession.user?.email ?: email,
+            email = currentSession.user?.email ?: cleanEmail,
             expiresAt = System.currentTimeMillis() + (currentSession.expiresIn * 1000)
         )
         sessionStore.saveSession(stored)

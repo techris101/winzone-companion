@@ -15,7 +15,9 @@
 -keep class io.ktor.** { *; }
 -dontwarn io.ktor.**
 
-# OkHttp (transitive)
+# OkHttp
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
 -dontwarn okhttp3.**
 -dontwarn okio.**
 

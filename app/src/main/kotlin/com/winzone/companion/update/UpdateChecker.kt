@@ -6,7 +6,7 @@ import com.winzone.companion.util.Constants
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.request.get
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -35,7 +35,7 @@ sealed class UpdateStatus {
 class UpdateChecker @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    private val client = HttpClient(CIO)
+    private val client = HttpClient(OkHttp)
     private val json = Json { ignoreUnknownKeys = true }
 
     suspend fun checkForUpdates(): UpdateStatus {

@@ -128,7 +128,9 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:postgrest-kt:2.6.0")
     implementation("io.github.jan-tennert.supabase:gotrue-kt:2.6.0")
     implementation("io.github.jan-tennert.supabase:realtime-kt:2.6.0")
-    implementation("io.ktor:ktor-client-cio:2.3.11")
+    implementation("io.ktor:ktor-client-okhttp:2.3.11")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
