@@ -28,3 +28,10 @@
 
 # RootBeer
 -keep class com.scottyab.rootbeer.** { *; }
+
+# SLF4J (referenced transitively by Ktor)
+-dontwarn org.slf4j.**
+
+# Coroutines
+-dontwarn kotlinx.coroutines.**
+
