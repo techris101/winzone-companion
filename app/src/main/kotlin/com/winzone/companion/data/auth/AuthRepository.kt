@@ -13,6 +13,7 @@ interface AuthRepository {
     suspend fun signIn(email: String, password: String): Result<StoredSession>
     suspend fun signOut(): Result<Unit>
     suspend fun refreshIfNeeded(): Result<Unit>
+    suspend fun importSession(accessToken: String, refreshToken: String, userId: String, email: String): Result<StoredSession>
 }
 
 @Singleton
@@ -80,5 +81,30 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }.onFailure {
         Timber.w(it, "Failed to refresh auth session")
+    }
+
+    override suspend fun importSession(
+        accessToken: String,
+        refreshToken: String,
+        userId: String,
+        email: String
+    ): Result<StoredSession> = runCatching {
+        val stored = StoredSession(
+            accessToken = accessToken,
+            refreshToken = refreshToken,
+            userId = userId,
+            email = email,
+            expiresAt = System.currentTimeMillis() + (3600 * 1000L)
+        )
+        sessionStore.saveSession(stored)
+        try {
+            supabase.auth.importAuthToken(accessToken)
+        } catch (e: Exception) {
+            Timber.w(e, "importAuthToken skipped or failed, local session stored")
+        }
+        Timber.i("Successfully imported auth session for user: %s", userId)
+        stored
+    }.onFailure {
+        Timber.e(it, "Failed to import auth session for user: %s", userId)
     }
 }

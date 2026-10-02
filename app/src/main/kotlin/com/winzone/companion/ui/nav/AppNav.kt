@@ -33,7 +33,9 @@ object NavRoutes {
 @Composable
 fun AppNav(
     navController: NavHostController,
-    startDestination: String
+    startDestination: String,
+    pendingMatchId: String? = null,
+    onMatchConsumed: () -> Unit = {}
 ) {
     NavHost(
         navController = navController,
@@ -52,7 +54,14 @@ fun AppNav(
         composable(NavRoutes.LOGIN) {
             LoginScreen(
                 onLoginSuccess = {
-                    navController.navigate(NavRoutes.HOME) {
+                    val destination = if (!pendingMatchId.isNullOrBlank()) {
+                        val match = pendingMatchId
+                        onMatchConsumed()
+                        NavRoutes.join(match)
+                    } else {
+                        NavRoutes.HOME
+                    }
+                    navController.navigate(destination) {
                         popUpTo(NavRoutes.LOGIN) { inclusive = true }
                     }
                 }
